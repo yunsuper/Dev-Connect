@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* 1. 디자인 토큰 정의 */
+@theme {
+  --color-background: #0a0a0a;
+  --color-foreground: #d4d4d8;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* 2. 전역 스타일 */
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-mono);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* 🚀 텍스트 렌더링 최적화: Hydration 시 미세한 떨림 방지 */
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* 3. 컴포넌트 클래스 */
+@layer components {
+  /* 공통 레이아웃 */
+  .dev-container {
+    @apply max-w-4xl mx-auto w-full;
+  }
+
+  /* 공유 오피스 감성 패널 */
+  .dev-panel {
+    @apply border border-zinc-800 bg-zinc-900/30 backdrop-blur-md;
+  }
+
+  /* 🚀 스크롤바 최적화: Firefox 지원 추가 및 접근성 강화 */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.zinc.800') transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 rounded-full transition-colors;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-emerald-600/50;
+  }
+
+  /* 🚀 마크다운/코드 블록 스타일 (라이트하우스 대비율 보정) */
+  .prose pre {
+    @apply bg-black/60! border border-zinc-800! my-4! rounded-lg overflow-x-auto;
+  }
+
+  /* 이미지 로딩 플레이스홀더 (CLS 방지용) */
+  .img-loading-skeleton {
+    @apply animate-pulse bg-zinc-800 rounded-lg;
+  }
+}
