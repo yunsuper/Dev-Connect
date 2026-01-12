@@ -4,7 +4,11 @@
 @theme {
   --color-background: #0a0a0a;
   --color-foreground: #d4d4d8;
+  --color-panel: #11141b;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  
+  --shadow-emerald: 0 0 15px rgba(16, 185, 129, 0.4);
+  --shadow-amber: 0 0 15px rgba(245, 158, 11, 0.4);
 }
 
 /* 2. 전역 스타일 */
@@ -15,24 +19,51 @@
     font-family: var(--font-mono);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* 🚀 텍스트 렌더링 최적화: Hydration 시 미세한 떨림 방지 */
     text-rendering: optimizeLegibility;
   }
 }
 
 /* 3. 컴포넌트 클래스 */
 @layer components {
-  /* 공통 레이아웃 */
   .dev-container {
     @apply max-w-4xl mx-auto w-full;
   }
 
-  /* 공유 오피스 감성 패널 */
   .dev-panel {
-    @apply border border-zinc-800 bg-zinc-900/30 backdrop-blur-md;
+    @apply border border-zinc-800/60 bg-zinc-900/40 backdrop-blur-xl rounded-2xl transition-all duration-300;
   }
 
-  /* 🚀 스크롤바 최적화: Firefox 지원 추가 및 접근성 강화 */
+  .sidebar-container {
+    @apply border-zinc-800 bg-panel flex flex-col overflow-hidden;
+  }
+
+  .timer-glow-emerald {
+    @apply text-emerald-500 transition-all duration-500;
+    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+  }
+
+  .timer-glow-amber {
+    @apply text-amber-500 transition-all duration-500;
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+  }
+
+  .btn-mode {
+    @apply flex items-center gap-2 px-5 py-2.5 text-xs font-black rounded-lg transition-all duration-300 uppercase tracking-tighter;
+  }
+
+  /* ✅ 인텔리센스 제안 반영: [var(--)] -> (--) */
+  .btn-mode-active-emerald {
+    @apply bg-emerald-500 text-black shadow-(--shadow-emerald);
+  }
+
+  .btn-mode-active-amber {
+    @apply bg-amber-500 text-black shadow-(--shadow-amber);
+  }
+
+  .btn-mode-inactive {
+    @apply text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50;
+  }
+
   .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: theme('colors.zinc.800') transparent;
@@ -47,20 +78,14 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-zinc-800 rounded-full transition-colors;
+    @apply bg-zinc-800/80 rounded-full;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-emerald-600/50;
+    @apply bg-emerald-500/40;
   }
 
-  /* 🚀 마크다운/코드 블록 스타일 (라이트하우스 대비율 보정) */
   .prose pre {
-    @apply bg-black/60! border border-zinc-800! my-4! rounded-lg overflow-x-auto;
-  }
-
-  /* 이미지 로딩 플레이스홀더 (CLS 방지용) */
-  .img-loading-skeleton {
-    @apply animate-pulse bg-zinc-800 rounded-lg;
+    @apply bg-black/60! border border-zinc-800/50! my-4! rounded-xl overflow-x-auto p-4;
   }
 }

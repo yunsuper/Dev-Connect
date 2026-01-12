@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, memo } from "react";
 import { motion } from "framer-motion";
-import { supabase } from "../lib/supabase";
-import { ChatMessage } from "../store/useChatStore";
-import { getUserColorClass } from "../lib/colors";
+import { memo, useState } from "react";
+import { getUserColorClass } from "../../lib/colors";
+import { supabase } from "../../lib/supabase";
+import { ChatMessage } from "@/types";
 import ChatBubble from "./ChatBubble";
 
 const ChatItem = memo(
