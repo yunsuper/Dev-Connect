@@ -1,20 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/layout/Footer";
 
 const geistMono = Geist_Mono({
     variable: "--font-geist-mono",
     subsets: ["latin"],
-    display: "swap", // 폰트 로딩 중에도 텍스트가 보이게 하여 성능(LCP) 향상
+    display: "swap",
 });
 
-// ✅ 라이트하우스 접근성(Accessibility) 만점을 위한 설정
 export const viewport: Viewport = {
     themeColor: "#0a0a0a",
     width: "device-width",
     initialScale: 1,
-    // 🚀 [중요 수정] maximumScale: 1 설정을 제거했습니다.
-    // 저시력 사용자가 핀치 줌으로 화면을 확대할 수 있도록 허용해야 접근성 점수 100점이 나옵니다.
 };
 
 export const metadata: Metadata = {
@@ -44,9 +42,16 @@ export default function RootLayout({
     return (
         <html lang="ko" className="dark" suppressHydrationWarning>
             <body
-                className={`${geistMono.variable} font-mono antialiased bg-background text-zinc-200 custom-scrollbar`}
+                className={`${geistMono.variable} font-mono antialiased bg-background text-zinc-200 custom-scrollbar flex flex-col min-h-screen`}
             >
-                {children}
+                {/* ✅ flex flex-col min-h-screen 을 추가하여 
+                   컨텐츠가 적어도 푸터가 항상 바닥에 머물게 합니다. 
+                */}
+
+                <div className="flex-1 flex flex-col">{children}</div>
+
+                {/* ✅ 사이트 최하단 디지털 도장(Footer) */}
+                <Footer />
             </body>
         </html>
     );

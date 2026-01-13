@@ -1,59 +1,90 @@
 "use client";
 
-import Image from "next/image"; // ✅ Next.js Image 컴포넌트 임포트
+import Image from "next/image";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import CodeBlock from "./CodeBlock";
+import GistPreview from "./GistPreview"; // 이것도 따로 파일로 빼는게 좋아요!
+import { FileCard } from "./FileCard";
+import { getFileType } from "../../lib/fileUtils";
 import { isImageUrl } from "../../lib/utils";
 
-export default function MessageContent({ content }: { content: string }) {
-    const cleanContent = content.replace(/\s+/g, "");
-
-    if (isImageUrl(cleanContent)) {
+export default function MessageContent({
+    content,
+    isEditing,
+    editContent,
+    setEditContent,
+}: {
+    content: string;
+    isEditing?: boolean;
+    editContent?: string;
+    setEditContent?: (val: string) => void;
+}) {
+    if (isEditing && setEditContent) {
         return (
-            <div className="my-2 overflow-hidden rounded-lg border border-white/10 shadow-lg bg-zinc-900">
-                {/* ✅ Next.js 경고 해결: width/height를 0으로 설정하고 sizes와 style을 조합합니다. */}
+            <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                className="w-full bg-black/40 text-foreground p-3 rounded-xl border border-zinc-800/50 focus:border-emerald-500/50 focus:outline-none min-h-20 text-sm resize-none custom-scrollbar transition-all font-mono"
+                autoFocus
+            />
+        );
+    }
+
+    const trimmedContent = content.trim();
+    const fileType = getFileType(trimmedContent);
+
+    // 1. 이미지
+    if (fileType === "image" || isImageUrl(trimmedContent)) {
+        return (
+            <div className="my-2 relative group max-w-lg overflow-hidden rounded-lg border border-white/10 shadow-lg bg-zinc-900">
                 <Image
-                    src={cleanContent}
-                    alt="shared-img"
+                    src={trimmedContent}
+                    alt="img"
                     width={0}
                     height={0}
                     sizes="100vw"
-                    unoptimized // 외부 URL 이미지 허용
-                    priority // 우선순위 로딩
-                    style={{
-                        width: "100%",
-                        height: "auto",
-                        display: "block", // 하단 미세 공백 제거
-                    }}
-                    className="max-h-75 object-contain transition-transform hover:scale-[1.02]"
+                    unoptimized
+                    style={{ width: "100%", height: "auto" }}
+                    className="max-h-125 object-contain"
                 />
+                {trimmedContent.toLowerCase().includes(".gif") && (
+                    <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/60 text-[10px] font-bold text-emerald-400 rounded-md backdrop-blur-md">
+                        GIF_ANIM
+                    </span>
+                )}
             </div>
         );
     }
 
+    // 2. 파일 (ZIP, PDF, PPTX 등)
+    if (fileType === "archive" || fileType === "document") {
+        return <FileCard url={trimmedContent} type={fileType} />;
+    }
+
+    // 3. Gist
+    if (
+        trimmedContent.startsWith("https://gist.github.com/") &&
+        !trimmedContent.includes(" ")
+    ) {
+        return <GistPreview url={trimmedContent} />;
+    }
+
+    // 4. 일반 텍스트 (Markdown)
     return (
-        <div className="prose prose-invert max-w-none text-inherit wrap-break-word">
+        <div className="prose prose-invert max-w-none">
             <ReactMarkdown
                 components={{
-                    // Hydration 에러 방지를 위해 p 대신 div 사용
-                    p({ children }) {
-                        return <div className="mb-4 last:mb-0">{children}</div>;
-                    },
-                    code({ className, children, ...props }) {
+                    code({ className, children }) {
                         const match = /language-(\w+)/.exec(className || "");
-                        const value = String(children).replace(/\n$/, "");
                         const isBlock = match || content.includes("```");
-
                         return isBlock ? (
                             <CodeBlock
-                                content={value}
+                                content={String(children).replace(/\n$/, "")}
                                 language={match ? match[1] : "bash"}
                             />
                         ) : (
-                            <code
-                                className="bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded text-[12px] font-mono border border-emerald-500/20"
-                                {...props}
-                            >
+                            <code className="bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded text-[12px] font-mono border border-emerald-500/20">
                                 {children}
                             </code>
                         );

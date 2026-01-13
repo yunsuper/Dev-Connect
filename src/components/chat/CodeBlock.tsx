@@ -26,9 +26,9 @@ export default function CodeBlock({ content, language }: CodeBlockProps) {
     };
 
     return (
-        <div className="relative group my-4 overflow-hidden rounded-xl border border-zinc-800 bg-[#12141a] shadow-xl">
-            {/* 🚀 상단 헤더 바 (여기에 복사 버튼이 들어갑니다) */}
-            <div className="flex items-center justify-between px-4 py-2 bg-zinc-900/80 border-b border-zinc-800/50">
+        // ✅ globals.css의 .dev-panel 스타일과 .prose pre 스타일을 결합
+        <div className="relative group my-4 overflow-hidden rounded-xl border border-zinc-800/50 bg-black/60 backdrop-blur-md shadow-2xl">
+            <div className="flex items-center justify-between px-4 py-2 bg-zinc-900/40 border-b border-zinc-800/30">
                 <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">
                     {language || "code"}
                 </span>
@@ -39,29 +39,32 @@ export default function CodeBlock({ content, language }: CodeBlockProps) {
                     {copied ? (
                         <>
                             <Check size={12} className="text-emerald-500" />
-                            <span className="text-[10px] text-emerald-500 font-bold">
+                            <span className="text-[10px] text-emerald-500 font-bold uppercase">
                                 COPIED
                             </span>
                         </>
                     ) : (
                         <>
                             <Copy size={12} />
-                            <span className="text-[10px] font-bold">COPY</span>
+                            <span className="text-[10px] font-bold uppercase">
+                                COPY
+                            </span>
                         </>
                     )}
                 </button>
             </div>
 
-            {/* 코드 출력부 */}
-            <div className="text-[13px] leading-relaxed">
+            {/* 코드 출력부: .custom-scrollbar 적용 가능 */}
+            <div className="text-[13px] leading-relaxed overflow-x-auto custom-scrollbar">
                 <SyntaxHighlighter
                     style={atomDark as { [key: string]: CSSProperties }}
                     language={language || "javascript"}
                     PreTag="div"
                     customStyle={{
                         margin: 0,
-                        padding: "1rem",
+                        padding: "1.25rem",
                         backgroundColor: "transparent",
+                        fontFamily: "var(--font-mono)",
                     }}
                 >
                     {codeString}

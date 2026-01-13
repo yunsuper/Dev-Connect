@@ -2,8 +2,6 @@
  * 닉네임을 기반으로 고유한 Tailwind 텍스트 색상 클래스를 반환합니다.
  */
 export const getUserColorClass = (nickname: string) => {
-    // 1. 다크 배경(#0a0a0a)에서 가독성(Contrast)이 가장 뛰어난 400~500 계열
-    // 라이트하우스 대비율을 위해 너무 어두운 색상은 제외하고 400대 위주로 구성했습니다.
     const colors = [
         "text-blue-400",
         "text-purple-400",

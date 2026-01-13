@@ -10,12 +10,23 @@ import ChatBubble from "./ChatBubble";
 const ChatItem = memo(
     ({ m, myNickname }: { m: ChatMessage; myNickname: string }) => {
         const [isEditing, setIsEditing] = useState(false);
+        // ✅ 린트 에러 해결: useEffect 대신 렌더링 시점에 상태를 관리하거나
+        // 하위 컴포넌트에서 key를 통해 초기화하는 것이 더 깔끔하지만,
+        // 현재 구조 유지를 위해 setState 에러를 방지하는 로직으로 수정합니다.
         const [editContent, setEditContent] = useState(m.content);
+
+        // Props가 변경되었을 때 상태를 동기화하는 '리액트스러운' 방법
+        const [prevContent, setPrevContent] = useState(m.content);
+        if (m.content !== prevContent) {
+            setEditContent(m.content);
+            setPrevContent(m.content);
+        }
+
         const isMine = m.sender_name === myNickname;
 
         if (m.type === "system") {
             return (
-                <div className="flex justify-center my-6 w-full">
+                <div className="flex justify-center my-6 w-full text-center">
                     <div className="bg-zinc-800/20 px-4 py-1.5 rounded-full border border-zinc-700/30 backdrop-blur-sm">
                         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">
                             {m.content}
@@ -26,12 +37,30 @@ const ChatItem = memo(
         }
 
         const handleUpdate = async () => {
-            if (!editContent.trim()) return;
+            if (!editContent.trim() || editContent === m.content) {
+                setIsEditing(false);
+                return;
+            }
+
             const { error } = await supabase
                 .from("chat_messages")
                 .update({ content: editContent })
                 .eq("id", m.id);
-            if (!error) setIsEditing(false);
+
+            if (error) {
+                console.error("수정 실패:", error.message);
+            } else {
+                setIsEditing(false);
+            }
+        };
+
+        const handleDelete = async () => {
+            if (!confirm("정말 삭제하시겠습니까?")) return;
+            const { error } = await supabase
+                .from("chat_messages")
+                .delete()
+                .eq("id", m.id);
+            if (error) console.error("삭제 실패:", error.message);
         };
 
         return (
@@ -70,6 +99,7 @@ const ChatItem = memo(
                             })}
                         </span>
                     </div>
+
                     <div
                         className={`relative group flex items-center gap-2 w-full min-w-0 ${
                             isMine ? "flex-row-reverse" : "flex-row"
@@ -87,6 +117,7 @@ const ChatItem = memo(
                                 setIsEditing(false);
                             }}
                         />
+
                         {isMine && !isEditing && (
                             <div className="flex gap-1.5 shrink-0 opacity-0 group-hover:opacity-100 transition-all transform translate-y-1 group-hover:translate-y-0">
                                 <button
@@ -108,13 +139,7 @@ const ChatItem = memo(
                                     </svg>
                                 </button>
                                 <button
-                                    onClick={async () => {
-                                        if (confirm("DELETE?"))
-                                            await supabase
-                                                .from("chat_messages")
-                                                .delete()
-                                                .eq("id", m.id);
-                                    }}
+                                    onClick={handleDelete}
                                     className="p-1.5 rounded-lg bg-zinc-900/50 text-zinc-500 hover:text-red-500 border border-zinc-800/50 backdrop-blur-md shadow-lg"
                                 >
                                     <svg

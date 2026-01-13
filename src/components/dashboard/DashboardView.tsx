@@ -6,7 +6,6 @@ import { UserProfile } from "@/store/slices/userSlice";
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 
-// 컴포넌트 임포트
 import ChatInput from "@/components/chat/ChatInput";
 import ChatList from "@/components/chat/ChatList";
 import Header from "@/components/chat/Header";

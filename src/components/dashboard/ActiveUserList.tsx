@@ -5,7 +5,6 @@ import { OnlineUser } from "@/types";
 import { Terminal, Coffee } from "lucide-react";
 
 export default function ActiveUserList() {
-    // ✅ store의 상태 이름이 onlineUserList인지 확인하세요 (앞선 에러에서는 onlineUsers였습니다)
     const { onlineUserList } = useStore();
 
     // ✅ 해결: 중복된 ID를 가진 유저를 제거하여 유니크한 리스트를 만듭니다.

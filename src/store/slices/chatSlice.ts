@@ -7,6 +7,9 @@ export interface ChatSlice {
     messages: ChatMessage[];
     fetchMessages: () => Promise<void>;
     addMessage: (message: ChatMessage) => void;
+    // ✅ any 제거: 수신된 업데이트 페이로드를 ChatMessage의 일부로 정의
+    updateMessage: (payload: Partial<ChatMessage> & { id: string }) => void;
+    deleteMessage: (id: string) => void;
     sendMessage: (content: string) => Promise<void>;
     addSystemLog: (content: string, userName: string) => void;
 }
@@ -17,7 +20,6 @@ export const createChatSlice: StateCreator<RootState, [], [], ChatSlice> = (
 ) => ({
     messages: [],
 
-    // 1. 기존 메시지 로드 (DB에서 전체 목록 가져오기)
     fetchMessages: async () => {
         const { data, error } = await supabase
             .from("chat_messages")
@@ -31,26 +33,32 @@ export const createChatSlice: StateCreator<RootState, [], [], ChatSlice> = (
         if (data) set({ messages: data as ChatMessage[] });
     },
 
-    // 2. 실시간 수신 메시지 추가 (중복 체크 포함)
     addMessage: (message) => {
         set((state) => {
-            // ✅ 이미 존재하는 메시지 ID라면 추가하지 않음 (실시간 중복 수신 방지)
             const exists = state.messages.some((m) => m.id === message.id);
             if (exists) return state;
-
-            return {
-                messages: [...state.messages, message],
-            };
+            return { messages: [...state.messages, message] };
         });
     },
 
-    // 3. 메시지 전송 (user_id 포함)
+    // ✅ Partial 타입을 사용하여 안전하게 업데이트
+    updateMessage: (payload) => {
+        set((state) => ({
+            messages: state.messages.map((m) =>
+                m.id === payload.id ? { ...m, ...payload } : m
+            ),
+        }));
+    },
+
+    deleteMessage: (id) => {
+        set((state) => ({
+            messages: state.messages.filter((m) => m.id !== id),
+        }));
+    },
+
     sendMessage: async (content: string) => {
         const user = get().user;
-        if (!user) {
-            console.error("로그인 정보가 없습니다.");
-            return;
-        }
+        if (!user) return;
 
         const { error } = await supabase.from("chat_messages").insert([
             {
@@ -60,21 +68,15 @@ export const createChatSlice: StateCreator<RootState, [], [], ChatSlice> = (
             },
         ]);
 
-        if (error) {
-            console.error("❌ 전송 에러:", error.message);
-            throw error;
-        }
+        if (error) throw error;
     },
 
-    // 4. 시스템 로그 (입퇴장 알림 등)
     addSystemLog: (content, userName) => {
         set((state) => ({
             messages: [
                 ...state.messages,
                 {
-                    id: `sys-${Date.now()}-${Math.random()
-                        .toString(36)
-                        .substring(2, 7)}-${userName}`,
+                    id: `sys-${Date.now()}-${userName}`,
                     sender_name: "SYSTEM",
                     content,
                     created_at: new Date().toISOString(),

@@ -60,7 +60,6 @@ export default function PomodoroTimer({ myNickname }: { myNickname: string }) {
 
     return (
         <div className="flex flex-col items-center">
-            {/* 탭 버튼 UI: dev-panel 클래스 적용 */}
             <div className="flex gap-2 mb-6 dev-panel p-1.5">
                 <button
                     onClick={() => handleModeChange("coding")}

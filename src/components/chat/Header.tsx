@@ -1,12 +1,12 @@
 "use client";
 
 import { getUserColorClass } from "../../lib/colors";
-import { LogOut, RefreshCw } from "lucide-react"; // lucide-react 아이콘 사용 권장
+import { LogOut, RefreshCw } from "lucide-react"; 
 
 interface HeaderProps {
     myNickname: string;
     onRefresh: () => void;
-    onLogout: () => void; // ✅ 이제 실제 코드에서 사용됩니다.
+    onLogout: () => void; 
     messageCount: number;
     onlineCount: number;
 }
@@ -73,7 +73,7 @@ export default function Header({
                     </button>
                 </div>
 
-                {/* ✅ 로그아웃(EXIT) 버튼 추가 */}
+                {/* ✅ 로그아웃(EXIT) 버튼 */}
                 <button
                     onClick={onLogout}
                     className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500 transition-all rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg shadow-black/20 group/logout"

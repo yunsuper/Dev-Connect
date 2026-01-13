@@ -62,6 +62,32 @@ export const useStore = create<RootState>()((...a) => {
                         get().addMessage(payload.new as ChatMessage);
                     }
                 )
+                // ✅ 1. 수정 이벤트 구독 추가
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "UPDATE",
+                        schema: "public",
+                        table: "chat_messages",
+                    },
+                    (payload) => {
+                        console.log("메시지 수정 수신:", payload);
+                        get().updateMessage(payload.new as ChatMessage);
+                    }
+                )
+                // ✅ 2. 삭제 이벤트 구독 추가
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "DELETE",
+                        schema: "public",
+                        table: "chat_messages",
+                    },
+                    (payload) => {
+                        console.log("메시지 삭제 수신:", payload);
+                        get().deleteMessage(payload.old.id);
+                    }
+                )
                 .on("presence", { event: "sync" }, () => {
                     const newState = channel.presenceState();
                     const userList: OnlineUser[] = Object.entries(newState).map(
