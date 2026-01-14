@@ -27,7 +27,8 @@ export interface PresenceUser {
 
 export interface Todo {
     id: string;
-    text: string;
-    completed: boolean;
+    user_id: string;
+    content: string;
+    is_completed: boolean;
     created_at: string;
 }
