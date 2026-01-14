@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import CodeBlock from "./CodeBlock";
-import GistPreview from "./GistPreview"; // 이것도 따로 파일로 빼는게 좋아요!
+import GistPreview from "./GistPreview";
 import { FileCard } from "./FileCard";
 import { getFileType } from "../../lib/fileUtils";
 import { isImageUrl } from "../../lib/utils";
@@ -75,6 +75,11 @@ export default function MessageContent({
         <div className="prose prose-invert max-w-none">
             <ReactMarkdown
                 components={{
+                    // ✅ 문단(p) 태그 에러 해결: p 대신 div를 사용하도록 변경
+                    p: ({ children }) => (
+                        <div className="mb-4 last:mb-0">{children}</div>
+                    ),
+
                     code({ className, children }) {
                         const match = /language-(\w+)/.exec(className || "");
                         const isBlock = match || content.includes("```");
