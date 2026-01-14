@@ -12,7 +12,7 @@ import Header from "@/components/chat/Header";
 import ActiveUserList from "@/components/dashboard/ActiveUserList";
 import PomodoroTimer from "@/components/dashboard/PomodoroTimer";
 import TodoList from "@/components/dashboard/TodoList";
-import FeedSection from "@/components/dashboard/FeedSection";
+import GithubStats from "@/components/dashboard/GithubStats";
 
 export default function DashboardView({ user }: { user: UserProfile }) {
     const { messages, onlineUsers, fetchMessages } = useStore();
@@ -107,7 +107,7 @@ export default function DashboardView({ user }: { user: UserProfile }) {
                         </div>
 
                         <div className="dev-panel rounded-xl p-6">
-                            <FeedSection />
+                            <GithubStats />
                         </div>
                     </div>
                 </section>
