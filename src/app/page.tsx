@@ -1,9 +1,21 @@
 "use client";
 
 import { useAuthSync } from "@/hooks/useAuthSync";
-import LandingView from "@/components/auth/LandingView";
-import DashboardView from "@/components/dashboard/DashboardView";
+// import LandingView from "@/components/auth/LandingView";
+// import DashboardView from "@/components/dashboard/DashboardView";
 import GithubStats from "@/components/dashboard/GithubStats";
+import dynamic from "next/dynamic";
+
+const LandingView = dynamic(() => import("@/components/auth/LandingView"), {
+    ssr: false,
+});
+const DashboardView = dynamic(
+    () => import("@/components/dashboard/DashboardView"),
+    {
+        ssr: false,
+        loading: () => <div className="h-screen bg-black" />, // 로드 중 깜빡임 방지
+    }
+);
 
 export default function Page() {
     const { user, loading } = useAuthSync();

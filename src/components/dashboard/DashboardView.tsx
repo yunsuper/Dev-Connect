@@ -6,13 +6,39 @@ import { UserProfile } from "@/store/slices/userSlice";
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 
-import ChatInput from "@/components/chat/ChatInput";
-import ChatList from "@/components/chat/ChatList";
-import Header from "@/components/chat/Header";
-import ActiveUserList from "@/components/dashboard/ActiveUserList";
-import PomodoroTimer from "@/components/dashboard/PomodoroTimer";
-import TodoList from "@/components/dashboard/TodoList";
-import GithubStats from "@/components/dashboard/GithubStats";
+// import ChatInput from "@/components/chat/ChatInput";
+// import ChatList from "@/components/chat/ChatList";
+// import Header from "@/components/chat/Header";
+// import ActiveUserList from "@/components/dashboard/ActiveUserList";
+// import PomodoroTimer from "@/components/dashboard/PomodoroTimer";
+// import TodoList from "@/components/dashboard/TodoList";
+// import GithubStats from "@/components/dashboard/GithubStats";
+import dynamic from "next/dynamic";
+
+const ChatInput = dynamic(() => import("@/components/chat/ChatInput"), {
+    ssr: false,
+});
+const ChatList = dynamic(() => import("@/components/chat/ChatList"), {
+    ssr: false,
+});
+const Header = dynamic(() => import("@/components/chat/Header"), {
+    ssr: false,
+});
+const ActiveUserList = dynamic(
+    () => import("@/components/dashboard/ActiveUserList"),
+    { ssr: false }
+);
+const PomodoroTimer = dynamic(
+    () => import("@/components/dashboard/PomodoroTimer"),
+    { ssr: false }
+);
+const TodoList = dynamic(() => import("@/components/dashboard/TodoList"), {
+    ssr: false,
+});
+const GithubStats = dynamic(
+    () => import("@/components/dashboard/GithubStats"),
+    { ssr: false }
+);
 
 export default function DashboardView({ user }: { user: UserProfile }) {
     const { messages, onlineUsers, fetchMessages } = useStore();
