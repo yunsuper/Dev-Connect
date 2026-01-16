@@ -34,6 +34,14 @@
 * **Drag & Drop Upload**: 이미지 파일을 채팅창에 끌어다 놓으면 Supabase Storage를 통해 즉시 업로드 및 공유됩니다.
 * **Smart URL Preview**: 이미지 URL을 붙여넣으면 자동으로 미리보기를 생성합니다.
 
+### 🤖 Self-Managing Infrastructure (지능형 자동화)
+* **Automated Storage Purge**: 시스템이 스스로 최적화하는 자율 주행 인프라를 지향합니다.
+  * **Weekly Auto-Cleanup**: 매주 일요일 오후 1시(KST), `pg_cron`과 `Edge Functions`가 협업하여 일주일 이상 된 임시 데이터들을 자동 삭제합니다.
+  * **Cost & Security Optimization**: 불필요한 스토리지 비용을 절감하고, 불필요한 데이터 보유를 최소화하여 보안 무결성을 유지합니다.
+
+---
+
+
 ## 🛠 Tech Stack (기술 스택)
 
 | Category | Tech |
