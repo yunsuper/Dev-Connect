@@ -20,22 +20,20 @@ export const metadata: Metadata = {
         siteName: "Dev-Connect",
         images: [
             {
-                url: "https://github.com/user-attachments/assets/ca3657a2-0c80-4703-b3f5-16e571ffa4d7",
-                width: 1200,
-                height: 630,
-                alt: "Dev-Connect 메인 화면",
+                url: "/favicon.ico",
+                width: 512,
+                height: 512,
+                alt: "Dev-Connect 전용 로고",
             },
         ],
         locale: "ko_KR",
         type: "website",
     },
     twitter: {
-        card: "summary_large_image",
+        card: "summary",
         title: "Dev-Connect",
         description: "개발자 전용 실시간 공유 오피스",
-        images: [
-            "https://github.com/user-attachments/assets/ca3657a2-0c80-4703-b3f5-16e571ffa4d7",
-        ],
+        images: ["/favicon.ico"],
     },
 };
 
