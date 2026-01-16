@@ -35,6 +35,9 @@ export const metadata: Metadata = {
         description: "개발자 전용 실시간 공유 오피스",
         images: ["/favicon.ico"],
     },
+    other: {
+        "fb:app_id": "26489424520659659",
+    },
 };
 
 export default function RootLayout({
