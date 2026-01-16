@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         siteName: "Dev-Connect",
         images: [
             {
-                url: "/favicon.ico",
+                url: "/logo.png",
                 width: 512,
                 height: 512,
                 alt: "Dev-Connect 전용 로고",
