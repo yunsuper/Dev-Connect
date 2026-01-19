@@ -5,7 +5,6 @@ import { useStore } from "../../store/useStore";
 import ChatItem from "./ChatItem";
 
 export default function ChatList({ myNickname }: { myNickname: string }) {
-    // ✅ user 정보를 추가로 가져옵니다.
     const { messages, user } = useStore();
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +72,6 @@ export default function ChatList({ myNickname }: { myNickname: string }) {
                             key={m.id}
                             m={m}
                             myNickname={myNickname}
-                            // ✅ 현재 로그인한 유저의 ID를 전달합니다 (리액션 판단용)
                             currentUserId={user?.id || ""}
                         />
                     ))}

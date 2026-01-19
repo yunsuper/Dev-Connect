@@ -9,7 +9,6 @@ const geistMono = Geist_Mono({
     display: "swap",
 });
 
-// ✅ 대망의 메타데이터 설정!
 export const metadata: Metadata = {
     title: "Dev-Connect | 개발자 실시간 공유 오피스",
     description: "뽀모도로, 깃허브 연동 기능을 갖춘 개발자들의 힙한 소통 공간",
@@ -50,7 +49,6 @@ export default function RootLayout({
             <body
                 className={`${geistMono.variable} font-mono antialiased bg-background text-zinc-200 flex flex-col h-screen overflow-hidden`}
             >
-                {/* 클라이언트 로직(푸터 제어 등)은 Wrapper에서 처리 */}
                 <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
             </body>
         </html>

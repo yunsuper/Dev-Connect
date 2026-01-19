@@ -14,7 +14,6 @@ export default function ChatInput() {
 
     const sendMessageAction = useStore((state) => state.sendMessage);
 
-    // 입력창 높이 자동 조절
     useEffect(() => {
         const textarea = textareaRef.current;
         if (textarea) {
@@ -23,7 +22,6 @@ export default function ChatInput() {
         }
     }, [input]);
 
-    // 파일 처리 통합 함수
     const handleFileProcess = async (file: File) => {
         if (isLoading) return;
         const MAX_SIZE = 50 * 1024 * 1024;
@@ -75,7 +73,6 @@ export default function ChatInput() {
         }
     };
 
-    // ✅ 모바일에서만 짧게 보이도록 설정 (글자 잘림 방지)
     const getPlaceholder = () => {
         if (isLoading) return "BUSY...";
         return "TYPE_CMD_OR_DROP..."; 

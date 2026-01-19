@@ -7,9 +7,6 @@ export default function GithubLoginButton() {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: "github",
             options: {
-                // ✅ 핵심: 깃허브 API를 쓰기 위한 권한(Scope)을 추가합니다.
-                // read:user - 프로필 및 활동 내역 읽기
-                // repo - 저장소 정보 읽기
                 scopes: "read:user repo",
                 redirectTo: window.location.origin,
             },

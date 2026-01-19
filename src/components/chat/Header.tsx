@@ -14,7 +14,7 @@ interface HeaderProps {
 export default function Header({
     myNickname,
     onRefresh,
-    onLogout, // ✅ props에서 가져오기
+    onLogout,
     messageCount,
     onlineCount,
 }: HeaderProps) {
@@ -26,7 +26,6 @@ export default function Header({
                         DEV-CONNECT
                     </h1>
 
-                    {/* 실시간 접속자 뱃지 */}
                     <div className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -42,9 +41,7 @@ export default function Header({
                 </p>
             </div>
 
-            {/* 유저 제어 섹션 */}
             <div className="flex items-center gap-3">
-                {/* 닉네임 및 새로고침 영역 */}
                 <div className="flex items-center gap-4 bg-zinc-800/60 p-2 px-4 rounded-full border border-zinc-700 hover:border-emerald-500/30 transition-colors group/panel">
                     <div className="flex flex-col items-end">
                         <span className="text-[9px] text-zinc-400 leading-none mb-1 font-bold">
@@ -73,7 +70,6 @@ export default function Header({
                     </button>
                 </div>
 
-                {/* ✅ 로그아웃(EXIT) 버튼 */}
                 <button
                     onClick={onLogout}
                     className="flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-500 transition-all rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg shadow-black/20 group/logout"

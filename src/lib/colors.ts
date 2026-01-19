@@ -1,6 +1,4 @@
-/**
- * 닉네임을 기반으로 고유한 Tailwind 텍스트 색상 클래스를 반환합니다.
- */
+
 export const getUserColorClass = (nickname: string) => {
     const colors = [
         "text-blue-400",
@@ -18,15 +16,12 @@ export const getUserColorClass = (nickname: string) => {
         "text-violet-400",
     ];
 
-    // 2. 문자열 해싱 로직 (비트 연산을 활용해 고르게 분산)
     let hash = 0;
     for (let i = 0; i < nickname.length; i++) {
-        // bitwise 연산으로 더 고른 인덱스 분포를 유도합니다.
         hash = nickname.charCodeAt(i) + ((hash << 5) - hash);
-        hash = hash & hash; // Convert to 32bit integer
+        hash = hash & hash;
     }
 
-    // 3. 인덱스 결정
     const index = Math.abs(hash) % colors.length;
     return colors[index];
 };

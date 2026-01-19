@@ -7,8 +7,6 @@ import { Terminal, Coffee } from "lucide-react";
 export default function ActiveUserList() {
     const { onlineUserList } = useStore();
 
-    // ✅ 해결: 중복된 ID를 가진 유저를 제거하여 유니크한 리스트를 만듭니다.
-    // Presence 특성상 동일 ID가 여러 개 올 수 있으므로 Map을 사용해 중복을 거릅니다.
     const uniqueUsers = Array.from(
         new Map((onlineUserList || []).map((user) => [user.id, user])).values()
     );
@@ -29,7 +27,7 @@ export default function ActiveUserList() {
 
                     return (
                         <li
-                            key={user.id} // ✅ 이제 유일한 ID임이 보장되어 에러가 사라집니다.
+                            key={user.id}
                             className="flex items-center justify-between p-3 rounded-xl bg-zinc-900/30 border border-zinc-800/50 hover:border-zinc-700 transition-all group"
                         >
                             <div className="flex items-center gap-3">
@@ -47,7 +45,6 @@ export default function ActiveUserList() {
                                             />
                                         )}
                                     </div>
-                                    {/* 온라인 상태 표시등 */}
                                     <span
                                         className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0B0C10] ${
                                             isCoding
@@ -73,7 +70,6 @@ export default function ActiveUserList() {
                                 </div>
                             </div>
 
-                            {/* 상태 배지 */}
                             <div
                                 className={`px-2 py-1 rounded-md text-[9px] font-black border ${
                                     isCoding

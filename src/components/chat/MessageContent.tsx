@@ -57,12 +57,10 @@ export default function MessageContent({
         );
     }
 
-    // 2. 파일 (ZIP, PDF, PPTX 등)
     if (fileType === "archive" || fileType === "document") {
         return <FileCard url={trimmedContent} type={fileType} />;
     }
 
-    // 3. Gist
     if (
         trimmedContent.startsWith("https://gist.github.com/") &&
         !trimmedContent.includes(" ")
@@ -75,7 +73,6 @@ export default function MessageContent({
         <div className="prose prose-invert max-w-none">
             <ReactMarkdown
                 components={{
-                    // ✅ 문단(p) 태그 에러 해결: p 대신 div를 사용하도록 변경
                     p: ({ children }) => (
                         <div className="mb-4 last:mb-0">{children}</div>
                     ),

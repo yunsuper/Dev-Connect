@@ -7,7 +7,7 @@ export interface PresenceSlice {
     onlineUsers: number;
     onlineUserList: OnlineUser[];
     myStatus: string;
-    activeChannel: RealtimeChannel | null; // 실시간 트래킹을 위한 채널 저장
+    activeChannel: RealtimeChannel | null;
     setPresence: (users: OnlineUser[]) => void;
     setMyStatus: (status: string) => void;
     setActiveChannel: (channel: RealtimeChannel | null) => void;
@@ -21,7 +21,7 @@ export const createPresenceSlice: StateCreator<
 > = (set) => ({
     onlineUsers: 0,
     onlineUserList: [],
-    myStatus: "coding", // 기본값
+    myStatus: "coding",
     activeChannel: null,
 
     setPresence: (list) =>

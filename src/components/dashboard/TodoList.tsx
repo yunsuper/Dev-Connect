@@ -71,7 +71,6 @@ export default function TodoList() {
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                     droppableId="todos-list"
-                    // ✅ 핵심: 드래그 시 실제 요소를 복제하여 별도 레이어에 띄움
                     renderClone={(provided, snapshot, rubric) => {
                         const todo = todos[rubric.source.index];
                         return (
@@ -82,7 +81,7 @@ export default function TodoList() {
                                 style={
                                     {
                                         ...provided.draggableProps.style,
-                                        width: "100%", // 너비 고정
+                                        width: "100%",
                                     } as React.CSSProperties
                                 }
                                 className="flex items-center justify-between p-3 rounded-xl border bg-zinc-800 border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.4)] z-9999 ring-2 ring-emerald-500/40 scale-[1.03]"
@@ -124,7 +123,7 @@ export default function TodoList() {
                                             }
                                             className={`group flex items-center justify-between p-3 rounded-xl border transition-all ${
                                                 snapshot.isDragging
-                                                    ? "opacity-0 invisible" // ✅ 드래그 시 원본은 아예 숨김 (복제본이 대신 보임)
+                                                    ? "opacity-0 invisible"
                                                     : "bg-zinc-900/30 border-zinc-800/50 hover:border-zinc-700/50"
                                             }`}
                                         >

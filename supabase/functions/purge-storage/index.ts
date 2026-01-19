@@ -5,7 +5,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// _req를 아예 제거하여 unused-vars 에러를 원천 차단합니다.
 serve(async () => {
     try {
         const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
@@ -15,16 +14,13 @@ serve(async () => {
 
         const bucketName = "chat-images";
 
-        // 1. 버킷 내 모든 파일 목록 조회
         const { data: list, error: listError } = await supabaseAdmin.storage
             .from(bucketName)
             .list();
 
         if (listError) throw listError;
 
-        // 2. 파일이 있으면 전체 삭제
         if (list && list.length > 0) {
-            // f: any 에러 방지를 위해 명시적 타입 지정
             const filesToRemove = list.map((f: { name: string }) => f.name);
 
             const { error: removeError } = await supabaseAdmin.storage

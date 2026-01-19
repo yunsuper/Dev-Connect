@@ -7,7 +7,6 @@ export interface ChatSlice {
     messages: ChatMessage[];
     fetchMessages: () => Promise<void>;
     addMessage: (message: ChatMessage) => void;
-    // ✅ any 제거: 수신된 업데이트 페이로드를 ChatMessage의 일부로 정의
     updateMessage: (payload: Partial<ChatMessage> & { id: string }) => void;
     deleteMessage: (id: string) => void;
     sendMessage: (content: string) => Promise<void>;
@@ -41,7 +40,6 @@ export const createChatSlice: StateCreator<RootState, [], [], ChatSlice> = (
         });
     },
 
-    // ✅ Partial 타입을 사용하여 안전하게 업데이트
     updateMessage: (payload) => {
         set((state) => ({
             messages: state.messages.map((m) =>

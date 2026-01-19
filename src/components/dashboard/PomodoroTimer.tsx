@@ -11,7 +11,6 @@ export default function PomodoroTimer({ myNickname }: { myNickname: string }) {
     const { syncPresenceStatus } = useStore();
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    // 1. 타이머 카운트다운 로직
     useEffect(() => {
         if (!isActive) {
             if (timerRef.current) clearInterval(timerRef.current);
@@ -42,7 +41,6 @@ export default function PomodoroTimer({ myNickname }: { myNickname: string }) {
         };
     }, [isActive, mode]);
 
-    // 2. 모드 변경 처리 (상태 동기화 포함)
     const handleModeChange = (newMode: "coding" | "resting") => {
         setIsActive(false);
         setMode(newMode);
@@ -85,7 +83,6 @@ export default function PomodoroTimer({ myNickname }: { myNickname: string }) {
                 </button>
             </div>
 
-            {/* 타이머 숫자: timer-glow 클래스 적용 */}
             <div
                 className={`text-6xl font-mono font-black tracking-tighter mb-6 ${
                     mode === "coding"
@@ -96,7 +93,6 @@ export default function PomodoroTimer({ myNickname }: { myNickname: string }) {
                 {formatTime(timeLeft)}
             </div>
 
-            {/* 제어 버튼 영역 */}
             <div className="flex gap-4">
                 <button
                     onClick={() => setIsActive(!isActive)}

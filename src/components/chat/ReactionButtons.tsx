@@ -27,21 +27,18 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
 
         loadReactions();
 
-        // 실시간 리액션 감지
         const channel = supabase
-            .channel(`message_reactions_${messageId}`) // 채널명 고유화
+            .channel(`message_reactions_${messageId}`)
             .on(
                 "postgres_changes",
                 {
                     event: "*",
                     schema: "public",
                     table: "message_reactions",
-                    // message_id가 정확히 일치하는지 확인
                     filter: `message_id=eq.${messageId}`,
                 },
-                (payload) => {
-                    console.log("Reaction change detected:", payload); // 디버깅용 로그
-                    loadReactions(); // 변경 감지 시 즉시 다시 로드
+                () => {
+                    loadReactions();
                 }
             )
             .subscribe();
@@ -51,7 +48,6 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
         };
     }, [messageId]);
 
-    // 2. 데이터를 그룹화 (이모티콘별 숫자 계산)
     const reactionGroups: ReactionGroup[] = EMOJI_LIST.map((emoji) => {
         const filtered = reactions.filter((r) => r.emoji === emoji);
         return {
@@ -68,14 +64,11 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
                 (r) => r.emoji === emoji && r.user_id === currentUserId
             );
             if (isExist) {
-                // 이미 존재하면 제거 (취소)
                 return prev.filter((r) => r.id !== isExist.id);
             }
 
-            // 존재하지 않으면 추가 (임시 객체 생성)
-            // ✅ any 대신 MessageReaction 타입을 명시하고 필수 속성을 채워줍니다.
             const newReaction: MessageReaction = {
-                id: Math.random().toString(), // 임시 ID
+                id: Math.random().toString(),
                 message_id: messageId,
                 user_id: currentUserId,
                 emoji: emoji,
@@ -86,7 +79,6 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
         });
 
         try {
-            // 2. 실제 DB 요청
             const { error } = await toggleReaction(
                 messageId,
                 currentUserId,
@@ -97,7 +89,6 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
             setShowPicker(false);
         } catch (err) {
             console.error("REACTION_ERROR:", err);
-            // 에러 발생 시 최신 데이터를 다시 불러와서 화면을 롤백하거나 갱신합니다.
             const data = await fetchReactions(messageId);
             setReactions(data as MessageReaction[]);
         }
@@ -105,7 +96,6 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
 
     return (
         <div className="relative flex flex-wrap gap-1 mt-2 items-center min-h-6">
-            {/* 리액션 피커 열기 버튼 */}
             <button
                 onClick={() => setShowPicker(!showPicker)}
                 className="p-1 text-zinc-600 hover:text-emerald-500 transition-colors rounded-md hover:bg-emerald-500/10"
@@ -114,7 +104,6 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
                 <Smile size={14} />
             </button>
 
-            {/* 이미 등록된 리액션들 표시 */}
             <div className="flex flex-wrap gap-1">
                 {reactionGroups.map((group) => (
                     <motion.button
@@ -136,7 +125,6 @@ export default function ReactionButtons({ messageId, currentUserId }: Props) {
                 ))}
             </div>
 
-            {/* 이모티콘 선택창 (Pop-up) */}
             <AnimatePresence>
                 {showPicker && (
                     <>

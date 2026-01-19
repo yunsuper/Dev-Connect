@@ -30,7 +30,6 @@ export default function ChatBubble({
               : "dev-panel text-zinc-100 rounded-tl-none border-zinc-800/60"
       } ${isEditing ? "w-full min-w-75" : "max-w-prose"}`}
         >
-            {/* 1. 알맹이 렌더링 (이미지, Gist, 마크다운, 혹은 수정용 Textarea) */}
             <MessageContent
                 content={content}
                 isEditing={isEditing}
@@ -38,7 +37,6 @@ export default function ChatBubble({
                 setEditContent={onEditChange}
             />
 
-            {/* 2. 수정 모드일 때의 하단 컨트롤 버튼 */}
             {isEditing && (
                 <div className="flex justify-end gap-2 mt-3 pt-2 border-t border-white/10">
                     <button

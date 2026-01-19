@@ -26,7 +26,6 @@ export default function CodeBlock({ content, language }: CodeBlockProps) {
     };
 
     return (
-        // ✅ globals.css의 .dev-panel 스타일과 .prose pre 스타일을 결합
         <div className="relative group my-4 overflow-hidden rounded-xl border border-zinc-800/50 bg-black/60 backdrop-blur-md shadow-2xl">
             <div className="flex items-center justify-between px-4 py-2 bg-zinc-900/40 border-b border-zinc-800/30">
                 <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">
@@ -54,7 +53,6 @@ export default function CodeBlock({ content, language }: CodeBlockProps) {
                 </button>
             </div>
 
-            {/* 코드 출력부: .custom-scrollbar 적용 가능 */}
             <div className="text-[13px] leading-relaxed overflow-x-auto custom-scrollbar">
                 <SyntaxHighlighter
                     style={atomDark as { [key: string]: CSSProperties }}

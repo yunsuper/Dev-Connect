@@ -73,24 +73,16 @@ export const getRandomNickname = () => {
     return `${adj} ${noun}#${randomId}`;
 };
 
-/**
- * URL이 이미지인지 더 정확하게 판별합니다.
- */
 export const isImageUrl = (url: string) => {
     if (!url) return false;
     const u = url.trim().toLowerCase();
 
-    // 1. Data URI (Base64 이미지) 체크
     if (u.startsWith("data:image/")) return true;
 
-    // 2. URL 파라미터(?v=123 등) 제거 후 순수 확장자만 추출하여 체크
     const pureUrl = u.split("?")[0];
     const imageExtensions = /\.(jpg|jpeg|png|gif|webp|avif|svg)$/i;
 
     const isImg = imageExtensions.test(pureUrl);
-
-    // 개발 중에만 확인하고, 배포 시에는 아래 로그를 지우는 것이 깔끔합니다.
-    // console.log("Checking URL:", u, "-> Result:", isImg);
 
     return isImg;
 };

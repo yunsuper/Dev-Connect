@@ -5,7 +5,6 @@ import { supabase } from "@/lib/supabase";
 import { fetchGithubEvents, fetchGithubRepos } from "@/lib/github";
 import { Star, Activity, Github } from "lucide-react";
 
-// ✅ any 에러 해결을 위한 타입 정의
 interface GithubEvent {
     type: string;
     repo: { name: string };

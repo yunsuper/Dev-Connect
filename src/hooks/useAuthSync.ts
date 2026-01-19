@@ -17,7 +17,6 @@ export function useAuthSync() {
             isProcessing.current = true;
 
             try {
-                // 접속 시마다 새로운 랜덤 닉네임 생성
                 const newNickname = getRandomNickname();
 
                 const { data, error } = await supabase
@@ -37,7 +36,6 @@ export function useAuthSync() {
                 }
 
                 if (data) {
-                    console.log("🎭 새 익명 페르소나 적용됨:", data.nickname);
                     setUser(data as UserProfile);
                     await fetchMessages();
                     subscribeMessages(data.nickname);
@@ -50,7 +48,6 @@ export function useAuthSync() {
             }
         };
 
-        // 초기 세션 확인 및 깃허브 토큰 존재 여부 체크
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session?.user) {
                 syncProfile(session.user.id);
@@ -59,11 +56,9 @@ export function useAuthSync() {
             }
         });
 
-        // 인증 상태 변화 감지
         const {
             data: { subscription },
         } = supabase.auth.onAuthStateChange((event, session) => {
-            console.log(`🔔 인증 이벤트 발생: ${event}`);
 
             if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
                 if (session?.user) {

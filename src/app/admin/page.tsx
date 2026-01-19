@@ -85,7 +85,6 @@ export default function AdminPage() {
     };
 
     return (
-        // ✅ 해결: pb-20으로 하단 여유 공간 확보, flex-col 유지하되 내부 배치를 자연스럽게 변경
         <main className="min-h-screen bg-black text-white p-6 md:p-12 font-mono flex flex-col overflow-y-auto custom-scrollbar pb-20 selection:bg-red-500/30">
             <header className="mb-10 flex justify-between items-start border-b border-zinc-800 pb-8">
                 <div>
@@ -105,9 +104,7 @@ export default function AdminPage() {
                 </Link>
             </header>
 
-            {/* 메인 콘텐츠 영역 */}
             <div className="flex flex-col gap-8">
-                {/* 상단 2개 패널 */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="border border-red-500/30 bg-red-500/5 p-8 rounded-2xl flex flex-col min-h-75 justify-between">
                         <div>
@@ -195,7 +192,6 @@ export default function AdminPage() {
                     </div>
                 </div>
 
-                {/* ✅ 시스템 로그 패널 (위 패널들 바로 밑에 배치) */}
                 <footer className="p-6 bg-zinc-950/80 backdrop-blur-sm border border-zinc-900 rounded-2xl font-mono text-[9px] text-zinc-400 leading-tight">
                     <div className="flex justify-between items-center mb-4">
                         <span className="text-zinc-400 font-bold tracking-widest">

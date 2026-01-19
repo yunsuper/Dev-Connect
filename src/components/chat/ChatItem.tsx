@@ -6,9 +6,8 @@ import { getUserColorClass } from "../../lib/colors";
 import { supabase } from "../../lib/supabase";
 import { ChatMessage } from "@/types";
 import ChatBubble from "./ChatBubble";
-import ReactionButtons from "./ReactionButtons"; // ✅ 리액션 버튼 임포트
+import ReactionButtons from "./ReactionButtons";
 
-// ✅ Props 타입 정의: ChatList에서 넘겨주는 currentUserId를 추가합니다.
 interface ChatItemProps {
     m: ChatMessage;
     myNickname: string;
@@ -19,7 +18,6 @@ const ChatItem = memo(({ m, myNickname, currentUserId }: ChatItemProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState(m.content);
 
-    // Props가 변경되었을 때 상태 동기화
     const [prevContent, setPrevContent] = useState(m.content);
     if (m.content !== prevContent) {
         setEditContent(m.content);
@@ -28,7 +26,6 @@ const ChatItem = memo(({ m, myNickname, currentUserId }: ChatItemProps) => {
 
     const isMine = m.sender_name === myNickname;
 
-    // 시스템 메시지 처리
     if (m.type === "system") {
         return (
             <div className="flex justify-center my-6 w-full text-center">
@@ -82,7 +79,6 @@ const ChatItem = memo(({ m, myNickname, currentUserId }: ChatItemProps) => {
                     isMine ? "items-end" : "items-start"
                 }`}
             >
-                {/* 발신자 정보 및 시간 */}
                 <div
                     className={`flex items-center gap-2 mb-1.5 ${
                         isMine ? "flex-row-reverse" : "flex-row"
@@ -106,7 +102,6 @@ const ChatItem = memo(({ m, myNickname, currentUserId }: ChatItemProps) => {
                     </span>
                 </div>
 
-                {/* 메시지 버블 및 리액션 영역 */}
                 <div
                     className={`relative group flex flex-col w-full min-w-0 ${
                         isMine ? "items-end" : "items-start"
@@ -130,7 +125,6 @@ const ChatItem = memo(({ m, myNickname, currentUserId }: ChatItemProps) => {
                             }}
                         />
 
-                        {/* 수정/삭제 버튼 (본인 메시지일 때만) */}
                         {isMine && !isEditing && (
                             <div className="flex gap-1.5 shrink-0 opacity-0 group-hover:opacity-100 transition-all transform translate-y-1 group-hover:translate-y-0">
                                 <button
@@ -173,7 +167,6 @@ const ChatItem = memo(({ m, myNickname, currentUserId }: ChatItemProps) => {
                         )}
                     </div>
 
-                    {/* ✅ 리액션 버튼 컴포넌트 추가 */}
                     <div
                         className={`-mt-1.5 ${
                             isMine ? "self-end mr-1" : "self-start ml-1"

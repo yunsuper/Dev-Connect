@@ -10,10 +10,9 @@ export interface MessageReaction {
     };
 }
 
-// 화면에 묶어서 보여주기 위한 가공된 타입
 export interface ReactionGroup {
     emoji: string;
     count: number;
     meClicked: boolean;
-    usernames: string[]; // 누가 눌렀는지 툴팁용
+    usernames: string[];
 }
