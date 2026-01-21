@@ -14,7 +14,7 @@ export interface TodoSlice {
 
 export const createTodoSlice: StateCreator<RootState, [], [], TodoSlice> = (
     set,
-    get
+    get,
 ) => ({
     todos: [],
 
@@ -63,9 +63,13 @@ export const createTodoSlice: StateCreator<RootState, [], [], TodoSlice> = (
     },
 
     deleteTodo: async (id) => {
+        const currentTodos = get().todos;
+        set({ todos: currentTodos.filter((todo) => todo.id !== id) });
+
         const { error } = await supabase.from("todos").delete().eq("id", id);
 
-        if (!error) {
+        if (error) {
+            console.error("DB 삭제 실패:", error.message);
             await get().fetchTodos();
         }
     },

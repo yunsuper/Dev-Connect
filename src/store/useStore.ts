@@ -59,7 +59,7 @@ export const useStore = create<RootState>()((...a) => {
                     },
                     (payload) => {
                         get().addMessage(payload.new as ChatMessage);
-                    }
+                    },
                 )
                 .on(
                     "postgres_changes",
@@ -70,7 +70,7 @@ export const useStore = create<RootState>()((...a) => {
                     },
                     (payload) => {
                         get().updateMessage(payload.new as ChatMessage);
-                    }
+                    },
                 )
                 .on(
                     "postgres_changes",
@@ -81,7 +81,27 @@ export const useStore = create<RootState>()((...a) => {
                     },
                     (payload) => {
                         get().deleteMessage(payload.old.id);
-                    }
+                    },
+                )
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "*",
+                        schema: "public",
+                        table: "todos",
+                    },
+                    (payload) => {
+                        console.log("TODO 변경 감지:", payload.eventType);
+
+                        get().fetchTodos();
+
+                        /* 또는 개별 처리하고 싶다면:
+            if (payload.eventType === 'DELETE') {
+                // deleteTodo는 DB 삭제용이니, 상태만 지우는 로직이 slice에 필요할 수 있음
+                // 지금은 fetchTodos()가 가장 속 편합니다.
+            }
+            */
+                    },
                 )
                 .on("presence", { event: "sync" }, () => {
                     const newState = channel.presenceState();
@@ -97,7 +117,7 @@ export const useStore = create<RootState>()((...a) => {
                                     p?.online_at || new Date().toISOString(),
                                 status: p?.status || "coding",
                             };
-                        }
+                        },
                     );
                     get().setPresence(userList);
                 })
@@ -118,7 +138,7 @@ export const useStore = create<RootState>()((...a) => {
                         if (!isAlreadyOnline) {
                             state.addSystemLog(
                                 `${name} HAS JOINED THE OFFICE.`,
-                                name
+                                name,
                             );
                         }
                     });
@@ -133,13 +153,13 @@ export const useStore = create<RootState>()((...a) => {
                             const currentState = channel.presenceState();
 
                             const isStillInOffice = Object.keys(
-                                currentState || {}
+                                currentState || {},
                             ).includes(name);
 
                             if (!isStillInOffice) {
                                 get().addSystemLog(
                                     `${name} HAS LEFT THE OFFICE.`,
-                                    name
+                                    name,
                                 );
                                 recentNotifications.delete(name);
                             }
