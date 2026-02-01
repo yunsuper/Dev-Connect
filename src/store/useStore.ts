@@ -98,7 +98,6 @@ export const useStore = create<RootState>()((...a) => {
                         /* 또는 개별 처리하고 싶다면:
             if (payload.eventType === 'DELETE') {
                 // deleteTodo는 DB 삭제용이니, 상태만 지우는 로직이 slice에 필요할 수 있음
-                // 지금은 fetchTodos()가 가장 속 편합니다.
             }
             */
                     },
