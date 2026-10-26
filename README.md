@@ -80,13 +80,13 @@
 ## 🚀 Getting Started
 
 ### Prerequisites
-* Node.js 18.x 이상
+* Node.js 24.x (LTS)
 * Supabase Project & Table Setup
 
 ### Installation
 ```bash
 # 레포지토리 클론
-git clone [https://github.com/](https://github.com/)[사용자ID]/dev-connect.git
+git clone https://github.com/yunsuper/Dev-Connect.git
 
 # 의존성 설치
 npm install
